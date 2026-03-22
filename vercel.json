@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/",      "destination": "/climax-index.html" },
+    { "source": "/admin", "destination": "/climax-admin.html" }
+  ]
+}
