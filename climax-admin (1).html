@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Staff Dashboard — Climax Lounge</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Black+Ops+One&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --void:#020810;--void2:#050F1A;--void3:#0A1628;--void4:#0F1F38;
+  --cyan:#00FFE5;--cyan2:#00C4B0;
+  --pink:#FF2D78;--lime:#A8FF3E;--orange:#FF8C00;--amber:#FFB347;
+  --text:#E8F8FF;--muted:#4A7A8A;--muted2:#2A4A5A;
+  --border:rgba(0,255,229,.18);--border2:rgba(0,255,229,.07);
+  --glow-c:0 0 20px rgba(0,255,229,.35),0 0 60px rgba(0,255,229,.12);
+  --glow-p:0 0 20px rgba(255,45,120,.4);
+  --glow-l:0 0 16px rgba(168,255,62,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Exo 2',sans-serif;background:var(--void);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:3px;height:3px;}::-webkit-scrollbar-track{background:var(--void2);}::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:2px;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 10% 10%,rgba(0,255,229,.05) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 90% 90%,rgba(255,45,120,.04) 0%,transparent 55%);}
+
+/* ── LOGIN ──────────────────────────────── */
+#loginScreen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--void);}
+.lcard{width:100%;max-width:380px;background:var(--void2);border:1px solid var(--border);padding:48px 34px;text-align:center;position:relative;overflow:hidden;}
+.lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--lime));}
+.l-logo{font-family:'Black Ops One',sans-serif;font-size:2.4rem;letter-spacing:.12em;color:var(--cyan);text-shadow:var(--glow-c);margin-bottom:4px;}
+.l-sub{font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.l-tag{display:inline-block;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:3px 12px;border-radius:3px;font-weight:700;margin-bottom:38px;}
+.l-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:left;display:block;margin-bottom:7px;}
+.l-input{width:100%;padding:13px 14px;border-radius:3px;margin-bottom:12px;background:var(--void3);border:1px solid var(--border);color:var(--text);font-family:'Exo 2',sans-serif;font-size:1rem;outline:none;transition:border-color .2s,box-shadow .2s;text-align:center;letter-spacing:.1em;}
+.l-input::placeholder{color:var(--muted2);letter-spacing:normal;}
+.l-input:focus{border-color:var(--cyan);box-shadow:0 0 14px rgba(0,255,229,.12);}
+.l-btn{width:100%;padding:13px;border-radius:3px;margin-top:4px;background:transparent;border:2px solid var(--cyan);color:var(--cyan);font-family:'Exo 2',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;}
+.l-btn::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-101%);transition:transform .28s;z-index:0;}
+.l-btn span{position:relative;z-index:1;}
+.l-btn:hover::before{transform:translateX(0);}
+.l-btn:hover{color:var(--void);box-shadow:var(--glow-c);}
+.l-err{font-size:.72rem;color:var(--pink);margin-top:12px;min-height:18px;}
+.l-hint{font-size:.62rem;color:var(--muted);margin-top:20px;line-height:1.7;padding:12px 14px;background:var(--void3);border:1px solid var(--border2);border-radius:3px;text-align:left;}
+.l-hint strong{color:var(--lime);}
+
+/* ── APP ────────────────────────────────── */
+#app{display:none;position:relative;z-index:1;}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;background:rgba(5,15,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;gap:10px;flex-wrap:wrap;}
+.tb-logo{font-family:'Black Ops One',sans-serif;font-size:1.3rem;letter-spacing:.1em;color:var(--cyan);text-shadow:var(--glow-c);}
+.tb-sub{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.tb-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.conn-pill{display:flex;align-items:center;gap:6px;font-size:.65rem;padding:5px 12px;border-radius:3px;font-family:'Share Tech Mono',monospace;}
+.conn-pill.ok  {color:var(--lime);background:rgba(168,255,62,.06);border:1px solid rgba(168,255,62,.2);}
+.conn-pill.fail{color:var(--pink);background:rgba(255,45,120,.06);border:1px solid rgba(255,45,120,.2);}
+.conn-dot{width:6px;height:6px;border-radius:50%;animation:blink 1.6s infinite;}
+.conn-pill.ok   .conn-dot{background:var(--lime);}
+.conn-pill.fail .conn-dot{background:var(--pink);animation:none;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.clock{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);}
+.logout-btn{padding:5px 14px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .18s;}
+.logout-btn:hover{border-color:var(--pink);color:var(--pink);}
+
+/* Stats */
+.stats-bar{display:flex;gap:1px;background:var(--border2);border-bottom:1px solid var(--border2);}
+.sbox{flex:1;background:var(--void2);padding:14px 16px;min-width:0;transition:background .2s;}
+.sbox:hover{background:var(--void3);}
+.sv{font-family:'Share Tech Mono',monospace;font-size:1.4rem;margin-bottom:2px;}
+.sl{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.sc{color:var(--cyan);}  .sa{color:var(--amber);} .sb{color:#60A5FA;}
+.sg{color:var(--lime);}  .sm{color:var(--muted);}
+
+/* Tabs */
+.tab-bar{display:flex;gap:0;padding:0 22px;background:var(--void2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab{padding:13px 18px;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;background:transparent;border-top:none;border-left:none;border-right:none;transition:all .18s;font-family:'Exo 2',sans-serif;}
+.tab:hover{color:var(--cyan);}
+.tab.on{color:var(--cyan);border-bottom-color:var(--cyan);}
+
+/* Filter */
+.filter-bar{display:flex;gap:7px;padding:10px 22px;border-bottom:1px solid var(--border2);flex-wrap:wrap;background:var(--void);}
+.fbtn{padding:5px 13px;border-radius:3px;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);color:var(--muted);background:transparent;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:'Exo 2',sans-serif;}
+.fbtn:hover{border-color:var(--cyan);color:var(--cyan);}
+.fbtn.on{background:var(--cyan);color:var(--void);border-color:var(--cyan);}
+.fbtn.rose:hover{border-color:var(--pink);color:var(--pink);}
+
+.content{padding:16px 22px;}
+.sec{display:none;}
+.sec.on{display:block;}
+
+/* Order cards */
+.orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.ocard{background:var(--void2);border:1px solid var(--border);overflow:hidden;transition:all .2s;position:relative;}
+.ocard::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--cyan),var(--pink));opacity:0;transition:opacity .2s;}
+.ocard:hover{border-color:rgba(0,255,229,.3);}
+.ocard:hover::before{opacity:1;}
+.ocard.flash{animation:flash .7s ease;}
+@keyframes flash{0%,100%{border-color:var(--border);}50%{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,255,229,.2);}}
+
+/* Table number header */
+.o-table-hdr{background:var(--void3);padding:16px 18px 12px;border-bottom:1px solid var(--border2);display:flex;align-items:flex-end;justify-content:space-between;}
+.o-table-num{font-family:'Black Ops One',sans-serif;font-size:2.8rem;letter-spacing:.06em;line-height:1;color:var(--cyan);text-shadow:var(--glow-c);}
+.o-table-right{text-align:right;}
+.o-total{font-family:'Share Tech Mono',monospace;font-size:.9rem;color:var(--lime);}
+.o-time{font-size:.6rem;color:var(--muted);margin-top:2px;font-family:'Share Tech Mono',monospace;}
+.o-meta{display:flex;align-items:center;gap:8px;padding:9px 18px;border-bottom:1px solid var(--border2);flex-wrap:wrap;}
+.o-id{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);}
+.o-name{font-size:.73rem;color:var(--text);margin-left:auto;}
+
+.sbadge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:3px;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.sbadge.pending  {background:rgba(255,179,71,.1); color:var(--amber);border:1px solid rgba(255,179,71,.25);}
+.sbadge.preparing{background:rgba(0,255,229,.08); color:var(--cyan); border:1px solid rgba(0,255,229,.25);}
+.sbadge.ready    {background:rgba(168,255,62,.08);color:var(--lime); border:1px solid rgba(168,255,62,.25);}
+.sbadge.delivered{background:rgba(74,122,138,.08);color:var(--muted);border:1px solid rgba(74,122,138,.2);}
+
+.o-items{padding:10px 18px;}
+.o-item{display:flex;justify-content:space-between;font-size:.76rem;padding:4px 0;border-bottom:1px solid rgba(0,255,229,.04);}
+.o-item:last-child{border-bottom:none;}
+.o-item-r{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--muted);}
+.o-note{font-size:.68rem;color:var(--muted);background:rgba(0,255,229,.04);border-left:2px solid var(--cyan);padding:7px 10px;margin:0 18px 10px;border-radius:0 3px 3px 0;}
+
+.o-actions{display:flex;gap:6px;padding:12px 18px;border-top:1px solid var(--border2);flex-wrap:wrap;}
+.abtn{padding:7px 13px;border-radius:3px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .15s;font-family:'Exo 2',sans-serif;}
+.abtn.accept {color:var(--cyan); border-color:rgba(0,255,229,.3); background:rgba(0,255,229,.06);} .abtn.accept:hover{background:rgba(0,255,229,.18);}
+.abtn.ready  {color:var(--lime); border-color:rgba(168,255,62,.3);background:rgba(168,255,62,.06);} .abtn.ready:hover{background:rgba(168,255,62,.16);}
+.abtn.deliver{color:var(--orange);border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.06);}  .abtn.deliver:hover{background:rgba(255,140,0,.16);}
+.abtn.del    {color:var(--pink); border-color:rgba(255,45,120,.25);background:rgba(255,45,120,.05);margin-left:auto;} .abtn.del:hover{background:rgba(255,45,120,.16);}
+
+.empty{text-align:center;padding:64px 20px;grid-column:1/-1;}
+.empty-icon{font-size:2.5rem;margin-bottom:10px;opacity:.2;}
+.empty-text{color:var(--muted);font-size:.84rem;font-weight:300;}
+
+/* Tables view */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:8px;}
+.ttile{background:var(--void2);border:1px solid var(--border);padding:16px;text-align:center;transition:all .2s;}
+.ttile:hover{background:var(--void3);}
+.ttile.pend{border-color:rgba(255,179,71,.45);}
+.ttile.rdy {border-color:rgba(168,255,62,.4);}
+.ttile.busy{border-color:rgba(0,255,229,.35);}
+.tt-icon{font-size:1.4rem;margin-bottom:5px;}
+.tt-num{font-family:'Black Ops One',sans-serif;font-size:1.15rem;letter-spacing:.08em;}
+.tt-lbl{font-size:.58rem;color:var(--muted);margin-top:3px;letter-spacing:.08em;text-transform:uppercase;}
+
+/* Settings */
+.settings-wrap{max-width:520px;display:flex;flex-direction:column;gap:14px;}
+.scard{background:var(--void2);border:1px solid var(--border);overflow:hidden;position:relative;}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--lime));}
+.scard-hdr{padding:18px 22px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:12px;}
+.scard-icon{font-size:1.15rem;flex-shrink:0;}
+.scard-title{font-size:.8rem;font-weight:700;letter-spacing:.05em;color:var(--cyan);}
+.scard-sub{font-size:.66rem;color:var(--muted);margin-top:2px;line-height:1.5;}
+.scard-body{padding:22px;}
+.sf-row{margin-bottom:16px;}
+.sf-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px;}
+.sf-input{width:100%;padding:11px 14px;border-radius:3px;background:var(--void3);border:1px solid var(--border);color:var(--text);font-family:'Exo 2',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.sf-input::placeholder{color:var(--muted2);}
+.sf-input:focus{border-color:var(--cyan);}
+.sf-input.err{border-color:var(--pink);}
+.pw-strength{margin-top:8px;display:none;}
+.pw-bar{height:3px;background:var(--void4);border-radius:2px;overflow:hidden;margin-bottom:5px;}
+.pw-fill{height:100%;border-radius:2px;transition:width .3s,background .3s;}
+.pw-lbl{font-size:.6rem;font-family:'Share Tech Mono',monospace;}
+.sf-btn{padding:11px 24px;border-radius:3px;background:transparent;border:2px solid var(--cyan);color:var(--cyan);font-family:'Exo 2',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.sf-btn::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-101%);transition:transform .28s;z-index:0;}
+.sf-btn span{position:relative;z-index:1;}
+.sf-btn:hover::before{transform:translateX(0);}
+.sf-btn:hover{color:var(--void);box-shadow:var(--glow-c);}
+.sf-btn.ghost{border-color:var(--pink);color:var(--pink);}
+.sf-btn.ghost::before{background:var(--pink);}
+.sf-btn.ghost:hover{color:#fff;}
+.sf-msg{font-size:.72rem;padding:9px 12px;border-radius:3px;margin-top:12px;display:none;}
+.sf-msg.ok {background:rgba(168,255,62,.07);color:var(--lime);border:1px solid rgba(168,255,62,.2);}
+.sf-msg.err{background:rgba(255,45,120,.07);color:var(--pink);border:1px solid rgba(255,45,120,.2);}
+.sf-rule{height:1px;background:var(--border2);margin:18px 0;}
+.sf-note{font-size:.66rem;color:var(--muted);line-height:1.7;}
+.sf-note code{color:var(--cyan);font-family:'Share Tech Mono',monospace;font-size:.66rem;}
+.info-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:3px;background:rgba(0,255,229,.05);border:1px solid var(--border);font-size:.68rem;color:var(--text);margin-bottom:8px;}
+.info-pill strong{color:var(--lime);font-family:'Share Tech Mono',monospace;}
+
+/* Notification */
+.notif{position:fixed;top:14px;right:14px;z-index:300;background:var(--void3);border:1px solid var(--border);border-left:3px solid var(--cyan);padding:12px 16px;max-width:270px;font-size:.78rem;box-shadow:0 10px 40px rgba(0,0,0,.7);transform:translateX(320px);transition:transform .32s cubic-bezier(.32,.72,0,1);}
+.notif.show{transform:translateX(0);}
+.notif.ok  {border-left-color:var(--lime);}
+.notif.err {border-left-color:var(--pink);}
+.notif-t{font-family:'Black Ops One',sans-serif;font-weight:400;color:var(--cyan);margin-bottom:3px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
+.notif.ok  .notif-t{color:var(--lime);}
+.notif.err .notif-t{color:var(--pink);}
+.notif-b{font-size:.72rem;color:var(--muted);}
+
+.fade-in{animation:fi .3s ease both;}
+@keyframes fi{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+@media(max-width:600px){.stats-bar{flex-wrap:wrap;}.sbox{min-width:50%;}.content{padding:12px;}.settings-wrap{max-width:100%;}}
+
+/* Records tab */
+.records-wrap{display:flex;flex-direction:column;gap:12px;}
+.date-group{background:var(--void2);border:1px solid var(--border);overflow:hidden;}
+.date-group-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;cursor:pointer;transition:background .18s;
+  border-bottom:1px solid var(--border2);
+  background:var(--void3);
+}
+.date-group-hdr:hover{background:var(--void4);}
+.date-label{
+  font-family:'Black Ops One',sans-serif;
+  font-size:1.1rem;letter-spacing:.08em;color:var(--cyan);
+}
+.date-stats{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.date-stat{font-size:.7rem;color:var(--muted);font-family:'Share Tech Mono',monospace;}
+.date-stat strong{color:var(--text);}
+.date-stat.rev{color:var(--lime);}
+.date-toggle{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.date-orders{display:none;padding:12px 18px;}
+.date-orders.open{display:block;}
+.rec-row{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid var(--border2);gap:12px;
+  flex-wrap:wrap;
+}
+.rec-row:last-child{border-bottom:none;}
+.rec-left{flex:1;min-width:160px;}
+.rec-table{font-family:'Black Ops One',sans-serif;font-size:1rem;letter-spacing:.06em;color:var(--cyan);}
+.rec-customer{font-size:.72rem;color:var(--muted);margin-top:1px;}
+.rec-id{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted2);margin-top:2px;}
+.rec-items{flex:2;min-width:180px;}
+.rec-item-line{font-size:.72rem;color:var(--text);padding:1px 0;}
+.rec-item-line span{color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:.66rem;}
+.rec-right{text-align:right;flex-shrink:0;}
+.rec-total{font-family:'Share Tech Mono',monospace;font-size:.88rem;color:var(--lime);}
+.rec-time{font-size:.6rem;color:var(--muted);margin-top:2px;}
+.rec-note{font-size:.68rem;color:var(--muted);font-style:italic;margin-top:2px;}
+.records-empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:.85rem;}
+.date-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:2px;font-size:.6rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;margin-left:8px;
+}
+.date-badge.has-pending{background:rgba(255,179,71,.12);color:var(--amber);border:1px solid rgba(255,179,71,.2);}
+.date-badge.all-done{background:rgba(168,255,62,.08);color:var(--lime);border:1px solid rgba(168,255,62,.2);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="lcard">
+    <div class="l-logo">CLIMAX</div>
+    <div class="l-sub">Staff Dashboard · Makindye</div>
+    <div class="l-tag">The Entertainment Hub</div>
+    <label class="l-label">Password</label>
+    <input class="l-input" type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="l-btn" onclick="doLogin()"><span>Enter Dashboard →</span></button>
+    <div class="l-err" id="loginErr"></div>
+    <div class="l-hint">Default password: <strong>climax2025</strong><br>Change it in the <strong>⚙ Settings</strong> tab.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <div class="topbar">
+    <div><div class="tb-logo">CLIMAX</div><div class="tb-sub">Makindye · Counter Dashboard</div></div>
+    <div class="tb-right">
+      <div class="conn-pill ok" id="connPill"><div class="conn-dot"></div><span id="connLabel">API Connected</span></div>
+      <div class="live-pill" style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:var(--lime);padding:5px 12px;border-radius:3px;background:rgba(168,255,62,.06);border:1px solid rgba(168,255,62,.2);">
+        Live · <span id="countdown">8</span>s
+      </div>
+      <div class="clock" id="clock"></div>
+      <button class="logout-btn" onclick="logout()">Log Out</button>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="sbox"><div class="sv sc" id="st-total">—</div><div class="sl">Total</div></div>
+    <div class="sbox"><div class="sv sa" id="st-pending">—</div><div class="sl">Pending</div></div>
+    <div class="sbox"><div class="sv sb" id="st-preparing">—</div><div class="sl">Preparing</div></div>
+    <div class="sbox"><div class="sv sg" id="st-ready">—</div><div class="sl">Ready</div></div>
+    <div class="sbox"><div class="sv sm" id="st-delivered">—</div><div class="sl">Delivered</div></div>
+    <div class="sbox"><div class="sv sg" id="st-rev" style="font-size:.88rem">—</div><div class="sl">Revenue</div></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab on" onclick="setTab('orders',this)">📋 Orders</button>
+    <button class="tab"    onclick="setTab('tables',this)">🪑 Tables</button>
+    <button class="tab"    onclick="setTab('records',this)">📅 Records</button>
+    <button class="tab"    onclick="setTab('settings',this)">⚙ Settings</button>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="fbtn on"   onclick="setFilter('all',this)">All</button>
+    <button class="fbtn"      onclick="setFilter('pending',this)">⏳ Pending</button>
+    <button class="fbtn"      onclick="setFilter('preparing',this)">🔵 Preparing</button>
+    <button class="fbtn"      onclick="setFilter('ready',this)">✅ Ready</button>
+    <button class="fbtn"      onclick="setFilter('delivered',this)">✔ Delivered</button>
+    <button class="fbtn rose" onclick="clearDelivered()" style="margin-left:auto;">🗑 Clear Delivered</button>
+  </div>
+
+  <div class="content">
+    <div class="sec on" id="sec-orders"><div class="orders-grid fade-in" id="ordersGrid"><div class="empty" style="grid-column:1/-1"><div class="empty-icon">⟳</div><div class="empty-text">Loading…</div></div></div></div>
+    <div class="sec" id="sec-tables"><div class="tgrid fade-in" id="tGrid"></div></div>
+    <div class="sec" id="sec-records">
+      <div class="records-wrap fade-in" id="recordsWrap">
+        <div class="records-empty">Loading records…</div>
+      </div>
+    </div>
+    <div class="sec" id="sec-settings">
+      <div class="settings-wrap fade-in">
+
+        <!-- API URL — change when going live -->
+        <div class="scard">
+          <div class="scard-hdr"><span class="scard-icon">🔌</span>
+            <div><div class="scard-title">API Connection</div>
+            <div class="scard-sub">Change this when you deploy your server online.</div></div>
+          </div>
+          <div class="scard-body">
+            <div class="sf-row">
+              <label class="sf-label">Server URL</label>
+              <input class="sf-input" id="apiUrlInput" placeholder="http://localhost:5000"/>
+            </div>
+            <button class="sf-btn" onclick="saveApiUrl()"><span>Save & Reconnect →</span></button>
+            <div class="sf-msg" id="apiMsg"></div>
+            <div class="sf-rule"></div>
+            <p class="sf-note">
+              Running locally: <code>http://localhost:5000</code><br>
+              Using ngrok: paste your ngrok URL here e.g. <code>https://abc123.ngrok.io</code><br>
+              Using a VPS: paste your server IP e.g. <code>http://192.168.1.10:5000</code>
+            </p>
+          </div>
+        </div>
+
+        <!-- Change password -->
+        <div class="scard">
+          <div class="scard-hdr"><span class="scard-icon">🔐</span>
+            <div><div class="scard-title">Change Dashboard Password</div>
+            <div class="scard-sub">Saved in browser. Takes effect on next login.</div></div>
+          </div>
+          <div class="scard-body">
+            <div class="sf-row"><label class="sf-label">Current Password</label><input class="sf-input" type="password" id="curPw" placeholder="Current password" oninput="clearPwUi()"/></div>
+            <div class="sf-row">
+              <label class="sf-label">New Password</label>
+              <input class="sf-input" type="password" id="newPw" placeholder="Min 6 characters" oninput="onNewPw()"/>
+              <div class="pw-strength" id="pwStrength"><div class="pw-bar"><div class="pw-fill" id="pwFill"></div></div><div class="pw-lbl" id="pwLbl"></div></div>
+            </div>
+            <div class="sf-row"><label class="sf-label">Confirm New Password</label><input class="sf-input" type="password" id="confPw" placeholder="Repeat new password" oninput="clearPwUi()"/></div>
+            <button class="sf-btn" onclick="changePassword()"><span>Update Password →</span></button>
+            <div class="sf-msg" id="pwMsg"></div>
+          </div>
+        </div>
+
+        <!-- System info -->
+        <div class="scard">
+          <div class="scard-hdr"><span class="scard-icon">ℹ️</span><div><div class="scard-title">System Info</div></div></div>
+          <div class="scard-body" style="display:flex;flex-direction:column;gap:8px;">
+            <div class="info-pill">System <strong>Climax Lounge v2.0</strong></div>
+            <div class="info-pill">Location <strong>Makindye, Kampala 🇺🇬</strong></div>
+            <div class="info-pill">Backend <strong>Python Flask + SQLite</strong></div>
+            <div class="info-pill">Current API <strong id="currentApiUrl">—</strong></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"><div class="notif-t" id="notifT"></div><div class="notif-b" id="notifB"></div></div>
+
+<script>
+// ════════════════════════════════════════
+// API URL — saved in localStorage so you
+// can change it from the Settings tab
+// ════════════════════════════════════════
+const DEFAULT_API = 'https://climax-api-production.up.railway.app';
+const API_KEY = 'climax-secret-2025';
+
+function getApiUrl(){
+  return localStorage.getItem('climax_api_url') || DEFAULT_API;
+}
+
+// ════════════════════════════════════════
+// PASSWORD
+// ════════════════════════════════════════
+const DEFAULT_PASSWORD = 'climax2025';
+function getPassword(){ return localStorage.getItem('climax_pw') || DEFAULT_PASSWORD; }
+function savePassword(pw){ localStorage.setItem('climax_pw', pw); }
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const TABLES = 20;
+let currentTab    = 'orders';
+let currentFilter = 'all';
+let orders        = [];
+let knownIds      = new Set();
+let refreshTimer;
+let cd = 8;
+
+// ════════════════════════════════════════
+// LOGIN
+// ════════════════════════════════════════
+function doLogin(){
+  const pw = document.getElementById('pwInput').value;
+  if(pw === getPassword()){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    sessionStorage.setItem('cl_auth','1');
+    start();
+  } else {
+    const err = document.getElementById('loginErr');
+    err.textContent = 'Incorrect password.';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+    setTimeout(() => err.textContent = '', 3000);
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function logout(){
+  sessionStorage.removeItem('cl_auth');
+  clearInterval(refreshTimer);
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+}
+
+if(sessionStorage.getItem('cl_auth') === '1'){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+// ════════════════════════════════════════
+// FETCH ORDERS
+// ════════════════════════════════════════
+async function fetchOrders(){
+  const url = getApiUrl();
+  try {
+    const res = await fetch(url + '/api/orders', {
+      headers: { 'X-API-Key': API_KEY }
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    orders = data;
+    setConn(true);
+
+    // Detect new orders
+    orders.forEach(o => {
+      if(!knownIds.has(o.id) && knownIds.size > 0)
+        notify('New Order #' + o.id, (o.table_name||'?') + ' — ' + (o.customer||'Guest'), '');
+      knownIds.add(o.id);
+    });
+
+    render();
+  } catch(e){
+    console.error('API error:', e.message);
+    setConn(false);
+    if(currentTab === 'orders'){
+      document.getElementById('ordersGrid').innerHTML =
+        `<div class="empty" style="grid-column:1/-1">
+          <div class="empty-icon" style="font-size:2rem;opacity:.5">!</div>
+          <div class="empty-text" style="color:var(--pink)">
+            Cannot reach API server.<br>
+            <span style="color:var(--muted);font-size:.75rem">
+              Make sure <code style="color:var(--cyan)">python app.py</code> is running.<br>
+              Current URL: ${url}
+            </span>
+          </div>
+        </div>`;
+    }
+  }
+}
+
+function setConn(ok){
+  const pill = document.getElementById('connPill');
+  const lbl  = document.getElementById('connLabel');
+  pill.className = 'conn-pill ' + (ok ? 'ok' : 'fail');
+  lbl.textContent = ok ? 'API Connected' : 'API Offline';
+}
+
+// ════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════
+function render(){
+  renderStats();
+  if(currentTab==='orders')        renderOrders();
+  else if(currentTab==='tables')   renderTables();
+  else if(currentTab==='records')  renderRecords();
+  else if(currentTab==='settings') renderSettingsData();
+}
+
+function renderStats(){
+  let p=0,pr=0,rd=0,d=0,rev=0;
+  orders.forEach(o => {
+    if(o.status==='pending')   p++;
+    if(o.status==='preparing') pr++;
+    if(o.status==='ready')     rd++;
+    if(o.status==='delivered'){d++;rev+=o.total||0;}
+  });
+  document.getElementById('st-total').textContent     = orders.length;
+  document.getElementById('st-pending').textContent   = p;
+  document.getElementById('st-preparing').textContent = pr;
+  document.getElementById('st-ready').textContent     = rd;
+  document.getElementById('st-delivered').textContent = d;
+  document.getElementById('st-rev').textContent       = 'UGX '+rev.toLocaleString();
+}
+
+function renderOrders(){
+  const list = currentFilter==='all' ? orders : orders.filter(o=>o.status===currentFilter);
+  const grid = document.getElementById('ordersGrid');
+  if(!list.length){
+    grid.innerHTML=`<div class="empty"><div class="empty-icon">🍸</div><div class="empty-text">No ${currentFilter==='all'?'':currentFilter+' '}orders right now.</div></div>`;
+    return;
+  }
+  const ic={pending:'⏳',preparing:'🔵',ready:'✅',delivered:'✔'};
+  grid.innerHTML = list.map(o=>`
+    <div class="ocard" id="oc-${o.id}">
+      <div class="o-table-hdr">
+        <div class="o-table-num">${o.table_name||'Table —'}</div>
+        <div class="o-table-right">
+          <div class="o-total">UGX ${(o.total||0).toLocaleString()}</div>
+          <div class="o-time">${ago(o.created_at)}</div>
+        </div>
+      </div>
+      <div class="o-meta">
+        <span class="sbadge ${o.status}">${ic[o.status]||''} ${o.status}</span>
+        <span class="o-id">#${o.id}</span>
+        <span class="o-name">👤 ${o.customer||'Guest'}</span>
+      </div>
+      <div class="o-items">
+        ${(o.items||[]).map(i=>`
+          <div class="o-item">
+            <span>${i.emoji||''} ${i.name}</span>
+            <span class="o-item-r">×${i.qty} — UGX ${((i.price||0)*i.qty).toLocaleString()}</span>
+          </div>`).join('')}
+      </div>
+      ${o.note?`<div class="o-note">📝 ${o.note}</div>`:''}
+      <div class="o-actions">
+        ${o.status==='pending'   ?`<button class="abtn accept"  onclick="updStatus('${o.id}','preparing')">✓ Accept</button>`:''}
+        ${o.status==='preparing' ?`<button class="abtn ready"   onclick="updStatus('${o.id}','ready')">✅ Mark Ready</button>`:''}
+        ${o.status==='ready'     ?`<button class="abtn deliver" onclick="updStatus('${o.id}','delivered')">🚀 Delivered</button>`:''}
+        <button class="abtn del" onclick="delOrder('${o.id}')">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderTables(){
+  const active={};
+  orders.filter(o=>o.status!=='delivered').forEach(o=>{
+    const k=o.table_num||o.table_name||'Other';
+    if(!active[k]) active[k]={orders:0,pend:false,rdy:false};
+    active[k].orders++;
+    if(o.status==='pending') active[k].pend=true;
+    if(o.status==='ready')   active[k].rdy=true;
+  });
+  let html='';
+  for(let t=1;t<=TABLES;t++){
+    const info=active[t];
+    const cls=info?(info.pend?'pend':info.rdy?'rdy':'busy'):'';
+    const icon=info?(info.pend?'⏳':info.rdy?'✅':'🍸'):'🪑';
+    html+=`<div class="ttile ${cls}"><div class="tt-icon">${icon}</div><div class="tt-num">T${t}</div><div class="tt-lbl">${info?info.orders+' order(s)':'Free'}</div></div>`;
+  }
+  document.getElementById('tGrid').innerHTML=html;
+}
+
+function renderSettingsData(){
+  const urlInput = document.getElementById('apiUrlInput');
+  if(urlInput) urlInput.value = getApiUrl();
+  const cur = document.getElementById('currentApiUrl');
+  if(cur) cur.textContent = getApiUrl();
+}
+
+// ════════════════════════════════════════
+// ORDER ACTIONS
+// ════════════════════════════════════════
+async function updStatus(id, status){
+  try{
+    const res = await fetch(getApiUrl()+'/api/orders/'+id, {
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','X-API-Key':API_KEY},
+      body: JSON.stringify({status})
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    await fetchOrders();
+  } catch(e){ notify('Error','Could not update status.','err'); }
+}
+
+async function delOrder(id){
+  if(!confirm('Remove order #'+id+'?')) return;
+  try{
+    await fetch(getApiUrl()+'/api/orders/'+id, {method:'DELETE', headers:{'X-API-Key':API_KEY}});
+    orders = orders.filter(o=>o.id!==id);
+    render();
+  } catch(e){ notify('Error','Could not delete.','err'); }
+}
+
+async function clearDelivered(){
+  if(!confirm('Remove all delivered orders?')) return;
+  try{
+    await fetch(getApiUrl()+'/api/orders/delivered', {method:'DELETE', headers:{'X-API-Key':API_KEY}});
+    await fetchOrders();
+  } catch(e){ notify('Error','Could not clear.','err'); }
+}
+
+// ════════════════════════════════════════
+// API URL SETTINGS
+// ════════════════════════════════════════
+function saveApiUrl(){
+  const val = document.getElementById('apiUrlInput').value.trim().replace(/\/$/, '');
+  if(!val){ showMsg('apiMsg','Enter a valid URL.','err'); return; }
+  localStorage.setItem('climax_api_url', val);
+  showMsg('apiMsg','Saved! Reconnecting…','ok');
+  renderSettingsData();
+  setTimeout(fetchOrders, 800);
+}
+
+// ════════════════════════════════════════
+// PASSWORD CHANGE
+// ════════════════════════════════════════
+function changePassword(){
+  const cur=document.getElementById('curPw').value;
+  const nw=document.getElementById('newPw').value;
+  const conf=document.getElementById('confPw').value;
+  if(cur!==getPassword()){document.getElementById('curPw').classList.add('err');showMsg('pwMsg','✕ Current password wrong.','err');return;}
+  if(nw.length<6){document.getElementById('newPw').classList.add('err');showMsg('pwMsg','✕ Min 6 characters.','err');return;}
+  if(nw!==conf){document.getElementById('confPw').classList.add('err');showMsg('pwMsg','✕ Passwords do not match.','err');return;}
+  savePassword(nw);
+  ['curPw','newPw','confPw'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pwStrength').style.display='none';
+  showMsg('pwMsg','✓ Password updated!','ok');
+  notify('Password Changed','New password saved.','ok');
+}
+function onNewPw(){
+  clearPwUi();
+  const pw=document.getElementById('newPw').value;
+  const sw=document.getElementById('pwStrength');
+  if(!pw){sw.style.display='none';return;}
+  sw.style.display='block';
+  let sc=0;
+  if(pw.length>=6)sc++;if(pw.length>=10)sc++;
+  if(/[A-Z]/.test(pw))sc++;if(/[0-9]/.test(pw))sc++;if(/[^A-Za-z0-9]/.test(pw))sc++;
+  const lv=[{w:'18%',c:'var(--pink)',t:'Too short'},{w:'36%',c:'var(--pink)',t:'Weak'},{w:'56%',c:'var(--amber)',t:'Fair'},{w:'78%',c:'var(--cyan)',t:'Good'},{w:'100%',c:'var(--lime)',t:'Strong'}][Math.min(sc,4)];
+  document.getElementById('pwFill').style.width=lv.w;
+  document.getElementById('pwFill').style.background=lv.c;
+  document.getElementById('pwLbl').textContent=lv.t;
+  document.getElementById('pwLbl').style.color=lv.c;
+}
+function clearPwUi(){
+  document.getElementById('pwMsg').style.display='none';
+  ['curPw','newPw','confPw'].forEach(id=>document.getElementById(id).classList.remove('err'));
+}
+function showMsg(id,text,type){
+  const el=document.getElementById(id);
+  el.textContent=text;el.className='sf-msg '+type;el.style.display='block';
+  if(type==='ok') setTimeout(()=>{el.style.display='none';},5000);
+}
+
+
+// ════════════════════════════════════════
+// RECORDS — orders grouped by date
+// ════════════════════════════════════════
+function renderRecords(){
+  const wrap = document.getElementById('recordsWrap');
+  if(!orders.length){
+    wrap.innerHTML = '<div class="records-empty">No orders in the database yet.</div>';
+    return;
+  }
+
+  // Group all orders by date (YYYY-MM-DD)
+  const groups = {};
+  orders.forEach(o => {
+    const date = o.created_at ? o.created_at.substring(0, 10) : 'Unknown';
+    if(!groups[date]) groups[date] = [];
+    groups[date].push(o);
+  });
+
+  // Sort dates newest first
+  const sortedDates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
+
+  wrap.innerHTML = sortedDates.map((date, idx) => {
+    const dayOrders = groups[date];
+    const total     = dayOrders.reduce((s,o) => s + (o.total||0), 0);
+    const revenue   = dayOrders.filter(o=>o.status==='delivered').reduce((s,o) => s + (o.total||0), 0);
+    const pending   = dayOrders.filter(o=>o.status!=='delivered').length;
+    const allDone   = pending === 0;
+
+    // Format date nicely
+    let dateLabel = date;
+    try {
+      const d = new Date(date + 'T00:00:00');
+      dateLabel = d.toLocaleDateString('en-UG', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    } catch(e){}
+
+    const isToday = date === new Date().toISOString().substring(0,10);
+
+    const badge = pending > 0
+      ? `<span class="date-badge has-pending">${pending} active</span>`
+      : `<span class="date-badge all-done">✔ Complete</span>`;
+
+    const rowsHtml = dayOrders.map(o => {
+      const items = Array.isArray(o.items) ? o.items : [];
+      return `<div class="rec-row">
+        <div class="rec-left">
+          <div class="rec-table">${o.table_name || 'Table —'}</div>
+          <div class="rec-customer">👤 ${o.customer || 'Guest'}</div>
+          <div class="rec-id">#${o.id} · <span class="sbadge ${o.status}" style="font-size:.55rem;padding:2px 6px;">${o.status}</span></div>
+        </div>
+        <div class="rec-items">
+          ${items.map(i => `<div class="rec-item-line">${i.emoji||''} ${i.name} <span>×${i.qty} — UGX ${((i.price||0)*i.qty).toLocaleString()}</span></div>`).join('')}
+          ${o.note ? `<div class="rec-note">📝 ${o.note}</div>` : ''}
+        </div>
+        <div class="rec-right">
+          <div class="rec-total">UGX ${(o.total||0).toLocaleString()}</div>
+          <div class="rec-time">${o.created_at ? o.created_at.substring(11,16) : ''}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Auto-open today, collapse past nights
+    const openClass = isToday ? 'open' : '';
+    const toggleTxt = isToday ? '▲ Hide' : '▼ Show';
+
+    return `<div class="date-group">
+      <div class="date-group-hdr" onclick="toggleDateGroup(this)">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span class="date-label">${isToday ? 'Today — ' : ''}${dateLabel}</span>
+          ${badge}
+        </div>
+        <div class="date-stats">
+          <div class="date-stat"><strong>${dayOrders.length}</strong> orders</div>
+          <div class="date-stat rev"><strong>UGX ${revenue.toLocaleString()}</strong> revenue</div>
+          <div class="date-toggle" id="toggle-${idx}">${isToday ? '▲ Hide' : '▼ Show'}</div>
+        </div>
+      </div>
+      <div class="date-orders ${openClass}" id="group-${idx}">
+        ${rowsHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDateGroup(hdr){
+  const body    = hdr.nextElementSibling;
+  const isOpen  = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  const toggle  = hdr.querySelector('.date-toggle');
+  if(toggle) toggle.textContent = isOpen ? '▼ Show' : '▲ Hide';
+}
+
+// ════════════════════════════════════════
+// TABS & FILTER
+// ════════════════════════════════════════
+function setTab(t,btn){
+  currentTab=t;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sec-'+t).classList.add('on');
+  document.getElementById('filterBar').style.display=t==='orders'?'flex':'none';
+  render();
+}
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderOrders();
+}
+
+// ════════════════════════════════════════
+// CLOCK & REFRESH
+// ════════════════════════════════════════
+function start(){
+  fetchOrders(); // first load
+  setInterval(()=>{
+    document.getElementById('clock').textContent=
+      new Date().toLocaleTimeString('en-UG',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  },1000);
+  clearInterval(refreshTimer);
+  refreshTimer=setInterval(async()=>{
+    cd--;
+    const el=document.getElementById('countdown');
+    if(el) el.textContent=cd;
+    if(cd<=0){ await fetchOrders(); cd=8; }
+  },1000);
+}
+if(sessionStorage.getItem('cl_auth')==='1') start();
+
+// ════════════════════════════════════════
+// NOTIFICATION
+// ════════════════════════════════════════
+let notifTimer;
+function notify(title,body,type){
+  clearTimeout(notifTimer);
+  const n=document.getElementById('notif');
+  document.getElementById('notifT').textContent=title;
+  document.getElementById('notifB').textContent=body;
+  n.className='notif show'+(type==='ok'?' ok':type==='err'?' err':'');
+  notifTimer=setTimeout(()=>n.classList.remove('show'),5000);
+}
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+function ago(iso){
+  if(!iso) return '';
+  const d=Math.floor((Date.now()-new Date(iso).getTime())/1000);
+  if(d<60) return d+'s ago';
+  if(d<3600) return Math.floor(d/60)+'m ago';
+  return Math.floor(d/3600)+'h ago';
+}
+</script>
+</body>
+</html>
