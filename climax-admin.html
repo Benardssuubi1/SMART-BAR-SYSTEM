@@ -23,7 +23,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(ellipse 60% 50% at 10% 10%,rgba(0,255,229,.05) 0%,transparent 55%),
     radial-gradient(ellipse 50% 40% at 90% 90%,rgba(255,45,120,.04) 0%,transparent 55%);}
 
-/* ── LOGIN ──────────────────────────────── */
+/* LOGIN */
 #loginScreen{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--void);}
 .lcard{width:100%;max-width:380px;background:var(--void2);border:1px solid var(--border);padding:48px 34px;text-align:center;position:relative;overflow:hidden;}
 .lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--lime));}
@@ -43,7 +43,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .l-hint{font-size:.62rem;color:var(--muted);margin-top:20px;line-height:1.7;padding:12px 14px;background:var(--void3);border:1px solid var(--border2);border-radius:3px;text-align:left;}
 .l-hint strong{color:var(--lime);}
 
-/* ── APP ────────────────────────────────── */
+/* APP */
 #app{display:none;position:relative;z-index:1;}
 
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;background:rgba(5,15,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;gap:10px;flex-wrap:wrap;}
@@ -51,10 +51,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .tb-sub{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
 .tb-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
 .conn-pill{display:flex;align-items:center;gap:6px;font-size:.65rem;padding:5px 12px;border-radius:3px;font-family:'Share Tech Mono',monospace;}
-.conn-pill.ok  {color:var(--lime);background:rgba(168,255,62,.06);border:1px solid rgba(168,255,62,.2);}
+.conn-pill.ok{color:var(--lime);background:rgba(168,255,62,.06);border:1px solid rgba(168,255,62,.2);}
 .conn-pill.fail{color:var(--pink);background:rgba(255,45,120,.06);border:1px solid rgba(255,45,120,.2);}
 .conn-dot{width:6px;height:6px;border-radius:50%;animation:blink 1.6s infinite;}
-.conn-pill.ok   .conn-dot{background:var(--lime);}
+.conn-pill.ok .conn-dot{background:var(--lime);}
 .conn-pill.fail .conn-dot{background:var(--pink);animation:none;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 .clock{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);}
@@ -67,8 +67,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .sbox:hover{background:var(--void3);}
 .sv{font-family:'Share Tech Mono',monospace;font-size:1.4rem;margin-bottom:2px;}
 .sl{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-.sc{color:var(--cyan);}  .sa{color:var(--amber);} .sb{color:#60A5FA;}
-.sg{color:var(--lime);}  .sm{color:var(--muted);}
+.sc{color:var(--cyan);}.sa{color:var(--amber);}.sb{color:#60A5FA;}
+.sg{color:var(--lime);}.sm{color:var(--muted);}
 
 /* Tabs */
 .tab-bar{display:flex;gap:0;padding:0 22px;background:var(--void2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
@@ -96,8 +96,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .ocard:hover::before{opacity:1;}
 .ocard.flash{animation:flash .7s ease;}
 @keyframes flash{0%,100%{border-color:var(--border);}50%{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,255,229,.2);}}
-
-/* Table number header */
 .o-table-hdr{background:var(--void3);padding:16px 18px 12px;border-bottom:1px solid var(--border2);display:flex;align-items:flex-end;justify-content:space-between;}
 .o-table-num{font-family:'Black Ops One',sans-serif;font-size:2.8rem;letter-spacing:.06em;line-height:1;color:var(--cyan);text-shadow:var(--glow-c);}
 .o-table-right{text-align:right;}
@@ -106,26 +104,23 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .o-meta{display:flex;align-items:center;gap:8px;padding:9px 18px;border-bottom:1px solid var(--border2);flex-wrap:wrap;}
 .o-id{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);}
 .o-name{font-size:.73rem;color:var(--text);margin-left:auto;}
-
 .sbadge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:3px;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
-.sbadge.pending  {background:rgba(255,179,71,.1); color:var(--amber);border:1px solid rgba(255,179,71,.25);}
-.sbadge.preparing{background:rgba(0,255,229,.08); color:var(--cyan); border:1px solid rgba(0,255,229,.25);}
-.sbadge.ready    {background:rgba(168,255,62,.08);color:var(--lime); border:1px solid rgba(168,255,62,.25);}
+.sbadge.pending{background:rgba(255,179,71,.1);color:var(--amber);border:1px solid rgba(255,179,71,.25);}
+.sbadge.preparing{background:rgba(0,255,229,.08);color:var(--cyan);border:1px solid rgba(0,255,229,.25);}
+.sbadge.ready{background:rgba(168,255,62,.08);color:var(--lime);border:1px solid rgba(168,255,62,.25);}
 .sbadge.delivered{background:rgba(74,122,138,.08);color:var(--muted);border:1px solid rgba(74,122,138,.2);}
-
 .o-items{padding:10px 18px;}
 .o-item{display:flex;justify-content:space-between;font-size:.76rem;padding:4px 0;border-bottom:1px solid rgba(0,255,229,.04);}
 .o-item:last-child{border-bottom:none;}
 .o-item-r{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--muted);}
 .o-note{font-size:.68rem;color:var(--muted);background:rgba(0,255,229,.04);border-left:2px solid var(--cyan);padding:7px 10px;margin:0 18px 10px;border-radius:0 3px 3px 0;}
-
 .o-actions{display:flex;gap:6px;padding:12px 18px;border-top:1px solid var(--border2);flex-wrap:wrap;}
 .abtn{padding:7px 13px;border-radius:3px;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .15s;font-family:'Exo 2',sans-serif;}
-.abtn.accept {color:var(--cyan); border-color:rgba(0,255,229,.3); background:rgba(0,255,229,.06);} .abtn.accept:hover{background:rgba(0,255,229,.18);}
-.abtn.ready  {color:var(--lime); border-color:rgba(168,255,62,.3);background:rgba(168,255,62,.06);} .abtn.ready:hover{background:rgba(168,255,62,.16);}
-.abtn.deliver{color:var(--orange);border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.06);}  .abtn.deliver:hover{background:rgba(255,140,0,.16);}
-.abtn.del    {color:var(--pink); border-color:rgba(255,45,120,.25);background:rgba(255,45,120,.05);margin-left:auto;} .abtn.del:hover{background:rgba(255,45,120,.16);}
-
+.abtn.accept{color:var(--cyan);border-color:rgba(0,255,229,.3);background:rgba(0,255,229,.06);}.abtn.accept:hover{background:rgba(0,255,229,.18);}
+.abtn.ready{color:var(--lime);border-color:rgba(168,255,62,.3);background:rgba(168,255,62,.06);}.abtn.ready:hover{background:rgba(168,255,62,.16);}
+.abtn.deliver{color:var(--orange);border-color:rgba(255,140,0,.3);background:rgba(255,140,0,.06);}.abtn.deliver:hover{background:rgba(255,140,0,.16);}
+.abtn.print{color:var(--cyan);border-color:rgba(0,255,229,.25);background:rgba(0,255,229,.04);}.abtn.print:hover{background:rgba(0,255,229,.14);}
+.abtn.del{color:var(--pink);border-color:rgba(255,45,120,.25);background:rgba(255,45,120,.05);margin-left:auto;}.abtn.del:hover{background:rgba(255,45,120,.16);}
 .empty{text-align:center;padding:64px 20px;grid-column:1/-1;}
 .empty-icon{font-size:2.5rem;margin-bottom:10px;opacity:.2;}
 .empty-text{color:var(--muted);font-size:.84rem;font-weight:300;}
@@ -135,7 +130,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .ttile{background:var(--void2);border:1px solid var(--border);padding:16px;text-align:center;transition:all .2s;}
 .ttile:hover{background:var(--void3);}
 .ttile.pend{border-color:rgba(255,179,71,.45);}
-.ttile.rdy {border-color:rgba(168,255,62,.4);}
+.ttile.rdy{border-color:rgba(168,255,62,.4);}
 .ttile.busy{border-color:rgba(0,255,229,.35);}
 .tt-icon{font-size:1.4rem;margin-bottom:5px;}
 .tt-num{font-family:'Black Ops One',sans-serif;font-size:1.15rem;letter-spacing:.08em;}
@@ -169,7 +164,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .sf-btn.ghost::before{background:var(--pink);}
 .sf-btn.ghost:hover{color:#fff;}
 .sf-msg{font-size:.72rem;padding:9px 12px;border-radius:3px;margin-top:12px;display:none;}
-.sf-msg.ok {background:rgba(168,255,62,.07);color:var(--lime);border:1px solid rgba(168,255,62,.2);}
+.sf-msg.ok{background:rgba(168,255,62,.07);color:var(--lime);border:1px solid rgba(168,255,62,.2);}
 .sf-msg.err{background:rgba(255,45,120,.07);color:var(--pink);border:1px solid rgba(255,45,120,.2);}
 .sf-rule{height:1px;background:var(--border2);margin:18px 0;}
 .sf-note{font-size:.66rem;color:var(--muted);line-height:1.7;}
@@ -180,10 +175,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 /* Notification */
 .notif{position:fixed;top:14px;right:14px;z-index:300;background:var(--void3);border:1px solid var(--border);border-left:3px solid var(--cyan);padding:12px 16px;max-width:270px;font-size:.78rem;box-shadow:0 10px 40px rgba(0,0,0,.7);transform:translateX(320px);transition:transform .32s cubic-bezier(.32,.72,0,1);}
 .notif.show{transform:translateX(0);}
-.notif.ok  {border-left-color:var(--lime);}
-.notif.err {border-left-color:var(--pink);}
+.notif.ok{border-left-color:var(--lime);}
+.notif.err{border-left-color:var(--pink);}
 .notif-t{font-family:'Black Ops One',sans-serif;font-weight:400;color:var(--cyan);margin-bottom:3px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
-.notif.ok  .notif-t{color:var(--lime);}
+.notif.ok .notif-t{color:var(--lime);}
 .notif.err .notif-t{color:var(--pink);}
 .notif-b{font-size:.72rem;color:var(--muted);}
 
@@ -194,17 +189,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 /* Records tab */
 .records-wrap{display:flex;flex-direction:column;gap:12px;}
 .date-group{background:var(--void2);border:1px solid var(--border);overflow:hidden;}
-.date-group-hdr{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px;cursor:pointer;transition:background .18s;
-  border-bottom:1px solid var(--border2);
-  background:var(--void3);
-}
+.date-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;transition:background .18s;border-bottom:1px solid var(--border2);background:var(--void3);}
 .date-group-hdr:hover{background:var(--void4);}
-.date-label{
-  font-family:'Black Ops One',sans-serif;
-  font-size:1.1rem;letter-spacing:.08em;color:var(--cyan);
-}
+.date-label{font-family:'Black Ops One',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--cyan);}
 .date-stats{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .date-stat{font-size:.7rem;color:var(--muted);font-family:'Share Tech Mono',monospace;}
 .date-stat strong{color:var(--text);}
@@ -212,11 +199,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .date-toggle{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
 .date-orders{display:none;padding:12px 18px;}
 .date-orders.open{display:block;}
-.rec-row{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  padding:10px 0;border-bottom:1px solid var(--border2);gap:12px;
-  flex-wrap:wrap;
-}
+.rec-row{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2);gap:12px;flex-wrap:wrap;}
 .rec-row:last-child{border-bottom:none;}
 .rec-left{flex:1;min-width:160px;}
 .rec-table{font-family:'Black Ops One',sans-serif;font-size:1rem;letter-spacing:.06em;color:var(--cyan);}
@@ -230,16 +213,35 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .rec-time{font-size:.6rem;color:var(--muted);margin-top:2px;}
 .rec-note{font-size:.68rem;color:var(--muted);font-style:italic;margin-top:2px;}
 .records-empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:.85rem;}
-.date-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:2px 8px;border-radius:2px;font-size:.6rem;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;margin-left:8px;
-}
+.date-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:2px;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-left:8px;}
 .date-badge.has-pending{background:rgba(255,179,71,.12);color:var(--amber);border:1px solid rgba(255,179,71,.2);}
 .date-badge.all-done{background:rgba(168,255,62,.08);color:var(--lime);border:1px solid rgba(168,255,62,.2);}
+
+/* PRINT STYLES */
+@media print{
+  body *{visibility:hidden!important;}
+  .print-order-sheet,
+  .print-order-sheet *{visibility:visible!important;}
+  .print-order-sheet{position:fixed;inset:0;background:#fff;padding:30px;font-family:monospace;font-size:13px;color:#000;}
+}
+.print-order-sheet{display:none;position:fixed;inset:0;background:#fff;padding:30px;font-family:monospace;z-index:9999;}
+.print-order-sheet h2{font-size:20px;margin-bottom:8px;}
+.por-line{display:flex;justify-content:space-between;border-bottom:1px dashed #aaa;padding:4px 0;}
+.por-total{font-weight:bold;font-size:15px;margin-top:10px;display:flex;justify-content:space-between;}
 </style>
 </head>
 <body>
+
+<!-- PRINT SHEET (hidden until print triggered) -->
+<div class="print-order-sheet" id="printSheet">
+  <h2>🍸 CLIMAX LOUNGE — Makindye</h2>
+  <p id="ps-table"></p>
+  <p id="ps-customer"></p>
+  <hr style="margin:8px 0;"/>
+  <div id="ps-items"></div>
+  <div class="por-total"><span>TOTAL</span><span id="ps-total"></span></div>
+  <p style="margin-top:10px;font-size:11px;">Printed by Staff Dashboard · 🇺🇬</p>
+</div>
 
 <!-- LOGIN -->
 <div id="loginScreen">
@@ -257,7 +259,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <!-- APP -->
 <div id="app">
-
   <div class="topbar">
     <div><div class="tb-logo">CLIMAX</div><div class="tb-sub">Makindye · Counter Dashboard</div></div>
     <div class="tb-right">
@@ -306,7 +307,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="sec" id="sec-settings">
       <div class="settings-wrap fade-in">
 
-        <!-- API URL — change when going live -->
+        <!-- API URL -->
         <div class="scard">
           <div class="scard-hdr"><span class="scard-icon">🔌</span>
             <div><div class="scard-title">API Connection</div>
@@ -325,6 +326,24 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
               Using ngrok: paste your ngrok URL here e.g. <code>https://abc123.ngrok.io</code><br>
               Using a VPS: paste your server IP e.g. <code>http://192.168.1.10:5000</code>
             </p>
+          </div>
+        </div>
+
+        <!-- API Key (stored locally, not in source) -->
+        <div class="scard">
+          <div class="scard-hdr"><span class="scard-icon">🔑</span>
+            <div><div class="scard-title">API Secret Key</div>
+            <div class="scard-sub">Stored only in your browser. Never appears in page source.</div></div>
+          </div>
+          <div class="scard-body">
+            <div class="sf-row">
+              <label class="sf-label">API Key</label>
+              <input class="sf-input" id="apiKeyInput" type="password" placeholder="Enter your API secret key"/>
+            </div>
+            <button class="sf-btn" onclick="saveApiKey()"><span>Save Key →</span></button>
+            <div class="sf-msg" id="apiKeyMsg"></div>
+            <div class="sf-rule"></div>
+            <p class="sf-note">This must match the <code>API_SECRET_KEY</code> environment variable on your server.</p>
           </div>
         </div>
 
@@ -367,14 +386,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <script>
 // ════════════════════════════════════════
-// API URL — saved in localStorage so you
-// can change it from the Settings tab
+// API CONFIG — stored in localStorage, NOT hardcoded in source.
+// Set via the Settings tab.
 // ════════════════════════════════════════
 const DEFAULT_API = 'https://climax-api-production.up.railway.app';
-const API_KEY = 'climax-secret-2025';
 
 function getApiUrl(){
   return localStorage.getItem('climax_api_url') || DEFAULT_API;
+}
+function getApiKey(){
+  return localStorage.getItem('climax_api_key') || '';
 }
 
 // ════════════════════════════════════════
@@ -434,15 +455,16 @@ if(sessionStorage.getItem('cl_auth') === '1'){
 async function fetchOrders(){
   const url = getApiUrl();
   try {
-    const res = await fetch(url + '/api/orders', {
-      headers: { 'X-API-Key': API_KEY }
-    });
+    const headers = {};
+    const key = getApiKey();
+    if(key) headers['X-API-Key'] = key;
+
+    const res = await fetch(url + '/api/orders', { headers });
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     orders = data;
     setConn(true);
 
-    // Detect new orders
     orders.forEach(o => {
       if(!knownIds.has(o.id) && knownIds.size > 0)
         notify('New Order #' + o.id, (o.table_name||'?') + ' — ' + (o.customer||'Guest'), '');
@@ -537,6 +559,7 @@ function renderOrders(){
         ${o.status==='pending'   ?`<button class="abtn accept"  onclick="updStatus('${o.id}','preparing')">✓ Accept</button>`:''}
         ${o.status==='preparing' ?`<button class="abtn ready"   onclick="updStatus('${o.id}','ready')">✅ Mark Ready</button>`:''}
         ${o.status==='ready'     ?`<button class="abtn deliver" onclick="updStatus('${o.id}','delivered')">🚀 Delivered</button>`:''}
+        <button class="abtn print" onclick="printOrderCard('${o.id}')">🖨️</button>
         <button class="abtn del" onclick="delOrder('${o.id}')">✕</button>
       </div>
     </div>`).join('');
@@ -564,6 +587,8 @@ function renderTables(){
 function renderSettingsData(){
   const urlInput = document.getElementById('apiUrlInput');
   if(urlInput) urlInput.value = getApiUrl();
+  const keyInput = document.getElementById('apiKeyInput');
+  if(keyInput) keyInput.value = getApiKey();
   const cur = document.getElementById('currentApiUrl');
   if(cur) cur.textContent = getApiUrl();
 }
@@ -573,10 +598,11 @@ function renderSettingsData(){
 // ════════════════════════════════════════
 async function updStatus(id, status){
   try{
+    const headers = {'Content-Type':'application/json'};
+    const key = getApiKey();
+    if(key) headers['X-API-Key'] = key;
     const res = await fetch(getApiUrl()+'/api/orders/'+id, {
-      method:'PATCH',
-      headers:{'Content-Type':'application/json','X-API-Key':API_KEY},
-      body: JSON.stringify({status})
+      method:'PATCH', headers, body: JSON.stringify({status})
     });
     if(!res.ok) throw new Error('HTTP '+res.status);
     await fetchOrders();
@@ -586,7 +612,10 @@ async function updStatus(id, status){
 async function delOrder(id){
   if(!confirm('Remove order #'+id+'?')) return;
   try{
-    await fetch(getApiUrl()+'/api/orders/'+id, {method:'DELETE', headers:{'X-API-Key':API_KEY}});
+    const headers = {};
+    const key = getApiKey();
+    if(key) headers['X-API-Key'] = key;
+    await fetch(getApiUrl()+'/api/orders/'+id, {method:'DELETE', headers});
     orders = orders.filter(o=>o.id!==id);
     render();
   } catch(e){ notify('Error','Could not delete.','err'); }
@@ -595,13 +624,37 @@ async function delOrder(id){
 async function clearDelivered(){
   if(!confirm('Remove all delivered orders?')) return;
   try{
-    await fetch(getApiUrl()+'/api/orders/delivered', {method:'DELETE', headers:{'X-API-Key':API_KEY}});
+    const headers = {};
+    const key = getApiKey();
+    if(key) headers['X-API-Key'] = key;
+    await fetch(getApiUrl()+'/api/orders/delivered', {method:'DELETE', headers});
     await fetchOrders();
   } catch(e){ notify('Error','Could not clear.','err'); }
 }
 
 // ════════════════════════════════════════
-// API URL SETTINGS
+// PRINT ORDER — requires connected printer
+// ════════════════════════════════════════
+function printOrderCard(id){
+  const o = orders.find(x => String(x.id) === String(id));
+  if(!o){ alert('Order not found'); return; }
+  const items = Array.isArray(o.items) ? o.items : [];
+
+  document.getElementById('ps-table').textContent    = `Table: ${o.table_name || '—'}`;
+  document.getElementById('ps-customer').textContent = `Customer: ${o.customer || 'Guest'} · Order #${o.id}`;
+  document.getElementById('ps-items').innerHTML = items.map(i =>
+    `<div class="por-line"><span>${i.emoji||''} ${i.name} ×${i.qty}</span><span>UGX ${((i.price||0)*i.qty).toLocaleString()}</span></div>`
+  ).join('');
+  document.getElementById('ps-total').textContent = `UGX ${(o.total||0).toLocaleString()}`;
+
+  const sheet = document.getElementById('printSheet');
+  sheet.style.display = 'block';
+  window.print();
+  setTimeout(() => { sheet.style.display = 'none'; }, 1000);
+}
+
+// ════════════════════════════════════════
+// API URL & KEY SETTINGS
 // ════════════════════════════════════════
 function saveApiUrl(){
   const val = document.getElementById('apiUrlInput').value.trim().replace(/\/$/, '');
@@ -609,6 +662,14 @@ function saveApiUrl(){
   localStorage.setItem('climax_api_url', val);
   showMsg('apiMsg','Saved! Reconnecting…','ok');
   renderSettingsData();
+  setTimeout(fetchOrders, 800);
+}
+
+function saveApiKey(){
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if(!val){ showMsg('apiKeyMsg','Enter your API key.','err'); return; }
+  localStorage.setItem('climax_api_key', val);
+  showMsg('apiKeyMsg','Key saved! Reconnecting…','ok');
   setTimeout(fetchOrders, 800);
 }
 
@@ -653,7 +714,6 @@ function showMsg(id,text,type){
   if(type==='ok') setTimeout(()=>{el.style.display='none';},5000);
 }
 
-
 // ════════════════════════════════════════
 // RECORDS — orders grouped by date
 // ════════════════════════════════════════
@@ -663,38 +723,27 @@ function renderRecords(){
     wrap.innerHTML = '<div class="records-empty">No orders in the database yet.</div>';
     return;
   }
-
-  // Group all orders by date (YYYY-MM-DD)
   const groups = {};
   orders.forEach(o => {
     const date = o.created_at ? o.created_at.substring(0, 10) : 'Unknown';
     if(!groups[date]) groups[date] = [];
     groups[date].push(o);
   });
-
-  // Sort dates newest first
   const sortedDates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
 
   wrap.innerHTML = sortedDates.map((date, idx) => {
     const dayOrders = groups[date];
-    const total     = dayOrders.reduce((s,o) => s + (o.total||0), 0);
     const revenue   = dayOrders.filter(o=>o.status==='delivered').reduce((s,o) => s + (o.total||0), 0);
     const pending   = dayOrders.filter(o=>o.status!=='delivered').length;
-    const allDone   = pending === 0;
-
-    // Format date nicely
     let dateLabel = date;
     try {
       const d = new Date(date + 'T00:00:00');
       dateLabel = d.toLocaleDateString('en-UG', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
     } catch(e){}
-
     const isToday = date === new Date().toISOString().substring(0,10);
-
     const badge = pending > 0
       ? `<span class="date-badge has-pending">${pending} active</span>`
       : `<span class="date-badge all-done">✔ Complete</span>`;
-
     const rowsHtml = dayOrders.map(o => {
       const items = Array.isArray(o.items) ? o.items : [];
       return `<div class="rec-row">
@@ -713,11 +762,7 @@ function renderRecords(){
         </div>
       </div>`;
     }).join('');
-
-    // Auto-open today, collapse past nights
     const openClass = isToday ? 'open' : '';
-    const toggleTxt = isToday ? '▲ Hide' : '▼ Show';
-
     return `<div class="date-group">
       <div class="date-group-hdr" onclick="toggleDateGroup(this)">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -738,10 +783,10 @@ function renderRecords(){
 }
 
 function toggleDateGroup(hdr){
-  const body    = hdr.nextElementSibling;
-  const isOpen  = body.classList.contains('open');
+  const body = hdr.nextElementSibling;
+  const isOpen = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
-  const toggle  = hdr.querySelector('.date-toggle');
+  const toggle = hdr.querySelector('.date-toggle');
   if(toggle) toggle.textContent = isOpen ? '▼ Show' : '▲ Hide';
 }
 
@@ -768,7 +813,7 @@ function setFilter(f,btn){
 // CLOCK & REFRESH
 // ════════════════════════════════════════
 function start(){
-  fetchOrders(); // first load
+  fetchOrders();
   setInterval(()=>{
     document.getElementById('clock').textContent=
       new Date().toLocaleTimeString('en-UG',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
