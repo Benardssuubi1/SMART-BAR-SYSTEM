@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pick Your Table — Climax Lounge</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700;900&family=Black+Ops+One&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --void:#020810;--void2:#050F1A;--void3:#0A1628;
+  --cyan:#00FFE5;--cyan2:#00C4B0;
+  --pink:#FF2D78;--lime:#A8FF3E;
+  --text:#E8F8FF;--muted:#4A7A8A;--muted2:#2A4A5A;
+  --border-c:rgba(0,255,229,.18);
+  --glow-c:0 0 20px rgba(0,255,229,.35),0 0 60px rgba(0,255,229,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Exo 2',sans-serif;background:var(--void);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+.atmo{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 15% 20%,rgba(0,255,229,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 75%,rgba(255,45,120,.07) 0%,transparent 55%);}
+.scanlines{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,229,.012) 2px,rgba(0,255,229,.012) 4px);}
+
+/* TABLE PICKER */
+#tablePage{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;position:relative;overflow:hidden;z-index:1;
+}
+
+.tp-logo{
+  font-family:'Black Ops One',sans-serif;font-size:2.4rem;letter-spacing:.12em;
+  color:var(--cyan);text-shadow:var(--glow-c);margin-bottom:4px;
+  animation:logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse{
+  0%,100%{text-shadow:var(--glow-c);}
+  50%{text-shadow:0 0 30px rgba(0,255,229,.6),0 0 80px rgba(0,255,229,.25);}
+}
+.tp-sub{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan2);margin-bottom:44px;opacity:.7;}
+
+.tp-heading{
+  font-family:'Black Ops One',sans-serif;font-size:clamp(1.6rem,5vw,2.6rem);
+  letter-spacing:.08em;color:var(--text);margin-bottom:8px;text-align:center;
+  text-shadow:0 0 30px rgba(0,255,229,.3);
+}
+.tp-desc{font-size:.82rem;color:var(--muted);margin-bottom:36px;text-align:center;line-height:1.65;max-width:340px;font-weight:300;}
+
+/* Table grid */
+.table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:400px;width:100%;margin-bottom:28px;}
+.tbl-btn{
+  aspect-ratio:1;border-radius:6px;border:1px solid var(--border-c);background:rgba(0,255,229,.04);
+  font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--muted);
+  cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.tbl-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,229,.1),transparent);opacity:0;transition:opacity .18s;}
+.tbl-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,255,229,.08);}
+.tbl-btn:hover::before{opacity:1;}
+.tbl-btn.sel{background:var(--cyan);color:var(--void);border-color:var(--cyan);transform:scale(1.08);box-shadow:var(--glow-c);font-weight:700;}
+
+/* Confirm link — styled as the old button but is an <a> tag */
+.tp-confirm{
+  display:inline-block;padding:15px 40px;border-radius:4px;
+  border:2px solid var(--cyan);color:var(--cyan);
+  font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  transition:all .22s;opacity:.3;pointer-events:none;
+  position:relative;overflow:hidden;text-align:center;
+}
+.tp-confirm::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-100%);transition:transform .3s;z-index:0;}
+.tp-confirm span{position:relative;z-index:1;}
+.tp-confirm.ready{opacity:1;pointer-events:all;}
+.tp-confirm.ready:hover::before{transform:translateX(0);}
+.tp-confirm.ready:hover{color:var(--void);box-shadow:var(--glow-c);}
+
+.tp-note{font-size:.62rem;color:var(--muted2);margin-top:18px;text-align:center;letter-spacing:.04em;}
+
+@media(max-width:600px){.table-grid{max-width:320px;}}
+</style>
+</head>
+<body>
+<div class="atmo"></div>
+<div class="scanlines"></div>
+
+<div id="tablePage">
+  <div class="tp-logo">CLIMAX</div>
+  <div class="tp-sub">The Entertainment Hub · Makindye · Kampala</div>
+
+  <h2 class="tp-heading">PICK YOUR TABLE</h2>
+  <p class="tp-desc">Tap your table number below. All your orders go straight to the bar tagged with your table.</p>
+
+  <div class="table-grid" id="tableGrid"></div>
+
+  <!-- This is a hyperlink to the menu page, pre-filled with the table number via URL param -->
+  <a class="tp-confirm" id="confirmBtn" href="#">
+    <span>Enter the Lounge →</span>
+  </a>
+
+  <p class="tp-note">Can't find your table? Ask a staff member.</p>
+</div>
+
+<script>
+let selectedTable = null;
+
+(function buildGrid(){
+  const g = document.getElementById('tableGrid');
+  for(let i = 1; i <= 20; i++){
+    const b = document.createElement('button');
+    b.className = 'tbl-btn';
+    b.textContent = i;
+    b.dataset.num = i;
+    b.onclick = () => pickTable(i, b);
+    g.appendChild(b);
+  }
+})();
+
+function pickTable(num, btn){
+  document.querySelectorAll('.tbl-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selectedTable = num;
+  const cb = document.getElementById('confirmBtn');
+  cb.querySelector('span').textContent = `Enter as Table ${num} →`;
+  // Set href to menu page with table number as URL parameter
+  cb.href = `climax-index.html?table=${num}`;
+  cb.classList.add('ready');
+}
+</script>
+</body>
+</html>
