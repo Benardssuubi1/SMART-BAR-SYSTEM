@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Climax Lounge — Makindye, Kampala</title>
+<title>FlexiOrder — Your Venue Name</title>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Black+Ops+One&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 <style>
 /* ═══════════════════════════
@@ -186,7 +186,9 @@ button{font-family:'Exo 2',sans-serif;cursor:pointer;}
 /* ═══════════════════════════
    SITE PAGE
 ═══════════════════════════ */
-#sitePage{}
+#sitePage{
+  min-height:100vh;
+}
 
 /* Table ribbon */
 .table-ribbon{
@@ -309,7 +311,7 @@ button{font-family:'Exo 2',sans-serif;cursor:pointer;}
 .hero-h1 .w2{
   display:block;
   background:linear-gradient(135deg,var(--pink),var(--orange),var(--yellow));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   filter:drop-shadow(0 0 20px rgba(255,45,120,.4));
 }
 
@@ -407,7 +409,7 @@ section{position:relative;z-index:1;}
   font-family:'Black Ops One',sans-serif;
   font-size:2.6rem;letter-spacing:.06em;
   background:linear-gradient(135deg,var(--cyan),var(--lime));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   margin-bottom:6px;
 }
 .astat-l{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
@@ -638,6 +640,28 @@ section{position:relative;z-index:1;}
 .send-btn:hover{transform:translateY(-2px);box-shadow:0 4px 30px rgba(255,45,120,.5);}
 .send-btn:disabled{opacity:.3;cursor:default;transform:none;box-shadow:none;}
 
+/* Payment Methods */
+.payment-methods{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;
+}
+.payment-option{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:10px 8px;border:1px solid var(--border-c);border-radius:4px;
+  background:var(--void3);cursor:pointer;transition:all .18s;
+}
+.payment-option:hover{border-color:var(--cyan);background:rgba(0,255,229,.04);}
+.payment-option input{display:none;}
+.payment-option:has(input:checked){
+  border-color:var(--cyan);background:rgba(0,255,229,.08);
+  box-shadow:0 0 12px rgba(0,255,229,.15);
+}
+.payment-icon{font-size:1.4rem;}
+.payment-text{
+  font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);text-align:center;
+}
+.payment-option:has(input:checked) .payment-text{color:var(--cyan);}
+
 /* ═══════════════════════════
    SUCCESS
 ═══════════════════════════ */
@@ -654,7 +678,7 @@ section{position:relative;z-index:1;}
   font-family:'Black Ops One',sans-serif;
   font-size:2.6rem;letter-spacing:.08em;
   background:linear-gradient(135deg,var(--cyan),var(--lime));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   filter:drop-shadow(0 0 16px rgba(0,255,229,.4));
   margin-bottom:10px;
 }
@@ -749,8 +773,8 @@ section{position:relative;z-index:1;}
 <div id="tablePage" class="page show">
   <div class="tp-bg"></div>
 
-  <div class="tp-logo neon-flicker" onclick="goHome()" title="Home">CLIMAX</div>
-  <div class="tp-sub">The Entertainment Hub · Makindye · Kampala</div>
+  <div class="tp-logo neon-flicker" onclick="goHome()" title="Home">FLEXIORDER</div>
+  <div class="tp-sub">Smart Ordering System · Your Location</div>
 
   <h2 class="tp-heading">PICK YOUR TABLE</h2>
   <p class="tp-desc">Tap your table number below. All your orders go straight to the bar tagged with your table.</p>
@@ -777,7 +801,7 @@ section{position:relative;z-index:1;}
 
   <!-- Nav -->
   <nav class="nav">
-    <div class="nav-logo neon-flicker" onclick="goHome()" title="Back to home">CLIMAX</div>
+    <div class="nav-logo neon-flicker" onclick="goHome()" title="Back to home">FLEXIORDER</div>
     <div class="nav-links">
       <a href="#menu" class="nav-link">Menu</a>
       <a href="#schedule" class="nav-link">Schedule</a>
@@ -802,9 +826,9 @@ section{position:relative;z-index:1;}
   <section class="hero" id="home">
     <div class="hero-bg-img"></div>
     <div class="hero-grid"></div>
-    <div class="hero-tag">Est. Makindye · Kampala · Uganda</div>
+    <div class="hero-tag">Smart Ordering System · Your Location</div>
     <h1 class="hero-h1">
-      <span class="w1">CLIMAX</span>
+      <span class="w1">FLEXIORDER</span>
       <span class="w2">LOUNGE</span>
     </h1>
     <div class="hero-tag2">// THE ENTERTAINMENT HUB //</div>
@@ -830,7 +854,7 @@ section{position:relative;z-index:1;}
           <div class="sec-label">About Us</div>
           <h2 class="sec-title" style="margin-bottom:16px;">The Heart of Makindye Nightlife</h2>
           <p class="sec-sub" style="margin-bottom:16px;">
-            Climax Lounge is Makindye's premier entertainment destination — cocktails, premium spirits, ice-cold beers and live events every week. Whether it's a chill Tuesday or a peak Saturday night, we set the vibe.
+            FlexiOrder Lounge is Makindye's premier entertainment destination — cocktails, premium spirits, ice-cold beers and live events every week. Whether it's a chill Tuesday or a peak Saturday night, we set the vibe.
           </p>
           <p class="sec-sub" style="color:var(--cyan2);">
             📍 Makindye Division, Kampala &nbsp;·&nbsp; 📞 +256 700 000 000
@@ -865,21 +889,21 @@ section{position:relative;z-index:1;}
     <div class="sec-inner">
       <div class="sec-label">What's On</div>
       <h2 class="sec-title">Weekly Schedule</h2>
-      <p class="sec-sub" style="margin-top:10px;">From mellow Mondays to peak weekends — there's always something happening at Climax.</p>
+      <p class="sec-sub" style="margin-top:10px;">From mellow Mondays to peak weekends — there's always something happening at FlexiOrder.</p>
       <div class="sched-grid" id="schedGrid"></div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="f-logo neon-flicker">CLIMAX</div>
+    <div class="f-logo neon-flicker">FLEXIORDER</div>
     <div class="f-sub">The Entertainment Hub · Makindye · Kampala, Uganda</div>
     <div class="f-links">
       <a href="#menu"              class="f-link">Menu</a>
       <a href="#schedule"           class="f-link">Schedule</a>
       <a href="#about"              class="f-link">About</a>
     </div>
-    <div class="f-copy">© 2025 Climax Lounge Makindye. All rights reserved.</div>
+    <div class="f-copy">© 2025 FlexiOrder Lounge Makindye. All rights reserved.</div>
   </footer>
 
 </div><!-- /sitePage -->
@@ -913,6 +937,38 @@ section{position:relative;z-index:1;}
       <span class="total-l">Total</span>
       <span class="total-v" id="drawerTotal">UGX 0</span>
     </div>
+    <div class="f-row">
+      <label class="f-lbl">Payment Method *</label>
+      <div class="payment-methods">
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="cash" checked onchange="togglePaymentFields()">
+          <span class="payment-icon">💵</span>
+          <span class="payment-text">Cash</span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="mobile_money" onchange="togglePaymentFields()">
+          <span class="payment-icon">📱</span>
+          <span class="payment-text">Mobile Money</span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="visa" onchange="togglePaymentFields()">
+          <span class="payment-icon">💳</span>
+          <span class="payment-text">Visa Card</span>
+        </label>
+      </div>
+    </div>
+    <div class="f-row" id="mobileMoneyFields" style="display:none;">
+      <label class="f-lbl">Mobile Money Number *</label>
+      <input class="f-input" id="mmNumber" placeholder="e.g. 0772123456" maxlength="13"/>
+    </div>
+    <div class="f-row" id="visaFields" style="display:none;">
+      <label class="f-lbl">Card Number *</label>
+      <input class="f-input" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"/>
+      <label class="f-lbl">Expiry Date *</label>
+      <input class="f-input" id="cardExpiry" placeholder="MM/YY" maxlength="5"/>
+      <label class="f-lbl">CVV *</label>
+      <input class="f-input" id="cardCvv" placeholder="123" maxlength="3" type="password"/>
+    </div>
     <button class="send-btn" id="sendBtn" onclick="submitOrder()">Send Order to Bar →</button>
   </div>
 </div>
@@ -934,7 +990,8 @@ section{position:relative;z-index:1;}
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<script src="./climax-config.js"></script>
+<script src="./flexiorder-config.js"></script>
+<script src="./flexiorder-payment.js"></script>
 <script>
 // ═══════════════════════════════════════
 // INJECT HERO IMAGE (base64 embedded)
@@ -1206,7 +1263,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 // API_KEY  : must match API_SECRET_KEY
 //            set in Railway environment
 // ═══════════════════════════════════════
-const APP_CONFIG = window.CLIMAX_CONFIG || {};
+const APP_CONFIG = window.FLEXIORDER_CONFIG || {};
 const API_URL = (APP_CONFIG.API_URL || '').replace(/\/$/, '');
 const API_KEY = APP_CONFIG.API_KEY || '';
 
@@ -1225,7 +1282,38 @@ async function submitOrder(){
 
   const btn = document.getElementById('sendBtn');
   btn.disabled = true;
-  btn.textContent = 'Sending…';
+  btn.textContent = 'Processing Payment…';
+
+  // Get payment method and validate
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'cash';
+  const validation = typeof validatePaymentDetails === 'function' ? validatePaymentDetails(paymentMethod) : { valid: true };
+  if(!validation.valid){
+    toast(validation.message);
+    btn.disabled = false;
+    btn.textContent = 'Send Order to Bar →';
+    return;
+  }
+
+  // Collect payment details
+  const paymentDetails = {};
+  if(paymentMethod === 'mobile_money'){
+    paymentDetails.mmNumber = document.getElementById('mmNumber')?.value.trim() || '';
+  } else if(paymentMethod === 'visa'){
+    paymentDetails.cardNumber = document.getElementById('cardNumber')?.value.trim() || '';
+    paymentDetails.cardExpiry = document.getElementById('cardExpiry')?.value.trim() || '';
+    paymentDetails.cardCvv = document.getElementById('cardCvv')?.value.trim() || '';
+  }
+
+  // Process payment
+  const paymentResult = typeof processPayment === 'function' ? await processPayment(total, paymentMethod, paymentDetails) : { success: true, transaction_id: 'CASH-' + Date.now() };
+  if(!paymentResult.success){
+    toast(paymentResult.error || 'Payment failed');
+    btn.disabled = false;
+    btn.textContent = 'Send Order to Bar →';
+    return;
+  }
+
+  btn.textContent = 'Sending Order…';
 
   const total = items.reduce((s,{item,qty}) => s + item.price * qty, 0);
 

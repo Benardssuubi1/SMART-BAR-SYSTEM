@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Staff Dashboard — Climax Lounge</title>
+<title>Staff Dashboard — FlexiOrder</title>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Black+Ops+One&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -60,6 +60,36 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .clock{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);}
 .logout-btn{padding:5px 14px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .18s;}
 .logout-btn:hover{border-color:var(--pink);color:var(--pink);}
+
+/* Role Selector */
+.role-selector{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:6px;margin-bottom:16px;
+}
+.role-option{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 8px;border:1px solid var(--border);border-radius:4px;
+  background:var(--void3);cursor:pointer;transition:all .18s;
+}
+.role-option:hover{border-color:var(--cyan);background:rgba(0,255,229,.04);}
+.role-option input{display:none;}
+.role-option:has(input:checked){
+  border-color:var(--cyan);background:rgba(0,255,229,.08);
+  box-shadow:0 0 12px rgba(0,255,229,.15);
+}
+.role-icon{font-size:1.6rem;}
+.role-text{
+  font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);text-align:center;
+}
+.role-option:has(input:checked) .role-text{color:var(--cyan);}
+
+/* Role Badge */
+.role-badge{
+  display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:3px;
+  font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.role-badge.attendant{background:rgba(0,255,229,.08);color:var(--cyan);border:1px solid rgba(0,255,229,.2);}
+.role-badge.management{background:rgba(255,179,71,.08);color:var(--amber);border:1px solid rgba(255,179,71,.2);}
 
 /* Stats */
 .stats-bar{display:flex;gap:1px;background:var(--border2);border-bottom:1px solid var(--border2);}
@@ -245,14 +275,27 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 <!-- LOGIN -->
 <div id="loginScreen">
   <div class="lcard">
-    <div class="l-logo">CLIMAX</div>
+    <div class="l-logo">FLEXIORDER</div>
     <div class="l-sub">Staff Dashboard · Makindye</div>
     <div class="l-tag">The Entertainment Hub</div>
+    <label class="l-label">Select Role</label>
+    <div class="role-selector">
+      <label class="role-option">
+        <input type="radio" name="userRole" value="attendant" checked>
+        <span class="role-icon">🧑‍🍳</span>
+        <span class="role-text">Attendant</span>
+      </label>
+      <label class="role-option">
+        <input type="radio" name="userRole" value="management">
+        <span class="role-icon">👨‍💼</span>
+        <span class="role-text">Management</span>
+      </label>
+    </div>
     <label class="l-label">Password</label>
     <input class="l-input" type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
     <button class="l-btn" onclick="doLogin()"><span>Enter Dashboard →</span></button>
     <div class="l-err" id="loginErr"></div>
-    <div class="l-hint">Default password: <strong>climax2025</strong><br>Change it in the <strong>⚙ Settings</strong> tab.</div>
+    <div class="l-hint">Default passwords:<br><strong>Attendant:</strong> attendant2025<br><strong>Management:</strong> management2025<br>Change in <strong>⚙ Settings</strong> tab.</div>
   </div>
 </div>
 
@@ -260,8 +303,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 <div id="app">
 
   <div class="topbar">
-    <div><div class="tb-logo">CLIMAX</div><div class="tb-sub">Makindye · Counter Dashboard</div></div>
+    <div><div class="tb-logo">FLEXIORDER</div><div class="tb-sub">Makindye · Counter Dashboard</div></div>
     <div class="tb-right">
+      <div class="role-badge attendant" id="roleBadge" style="display:none;">🧑‍🍳 Attendant</div>
       <div class="conn-pill ok" id="connPill"><div class="conn-dot"></div><span id="connLabel">API Connected</span></div>
       <div class="live-pill" style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:var(--lime);padding:5px 12px;border-radius:3px;background:rgba(168,255,62,.06);border:1px solid rgba(168,255,62,.2);">
         Live · <span id="countdown">8</span>s
@@ -352,7 +396,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
         <div class="scard">
           <div class="scard-hdr"><span class="scard-icon">ℹ️</span><div><div class="scard-title">System Info</div></div></div>
           <div class="scard-body" style="display:flex;flex-direction:column;gap:8px;">
-            <div class="info-pill">System <strong>Climax Lounge v2.0</strong></div>
+            <div class="info-pill">System <strong>FlexiOrder Lounge v2.0</strong></div>
             <div class="info-pill">Location <strong>Makindye, Kampala 🇺🇬</strong></div>
             <div class="info-pill">Backend <strong>Python Flask + SQLite</strong></div>
             <div class="info-pill">Current API <strong id="currentApiUrl">—</strong></div>
@@ -366,13 +410,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <div class="notif" id="notif"><div class="notif-t" id="notifT"></div><div class="notif-b" id="notifB"></div></div>
 
-<script src="./climax-config.js"></script>
+<script src="./flexiorder-config.js"></script>
 <script>
 // ════════════════════════════════════════
 // API URL — saved in localStorage so you
 // can change it from the Settings tab
 // ════════════════════════════════════════
-const APP_CONFIG = window.CLIMAX_CONFIG || {};
+const APP_CONFIG = window.FLEXIORDER_CONFIG || {};
 const DEFAULT_API = (APP_CONFIG.API_URL || '').replace(/\/$/, '');
 const API_KEY = APP_CONFIG.API_KEY || '';
 
@@ -397,6 +441,31 @@ let orders        = [];
 let knownIds      = new Set();
 let refreshTimer;
 let cd = 8;
+let currentUserRole = null;
+
+// Role authentication helper function
+function checkRoleAuth(password, role){
+  const rolePasswords = {
+    'attendant': 'attendant2025',
+    'management': 'management2025'
+  };
+  return password === (rolePasswords[role] || getPassword());
+}
+
+// Role-based UI management
+function updateUIForRole(role){
+  const tabs = document.querySelectorAll('.tab');
+  const settingsTab = Array.from(tabs).find(tab => tab.textContent.includes('Settings'));
+  
+  // Hide management-specific features for attendants
+  if(role === 'attendant'){
+    // Attendants have limited access
+    if(settingsTab) settingsTab.style.display = 'none';
+  } else if(role === 'management'){
+    // Management has full access
+    if(settingsTab) settingsTab.style.display = 'block';
+  }
+}
 
 // ════════════════════════════════════════
 // LOGIN
@@ -419,8 +488,42 @@ function doLogin(){
 }
 document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
+// Override login function with role-based authentication
+doLogin = function(){
+  const pw = document.getElementById('pwInput').value;
+  const selectedRole = document.querySelector('input[name="userRole"]:checked')?.value || 'attendant';
+  
+  if(checkRoleAuth(pw, selectedRole)){
+    currentUserRole = selectedRole;
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    sessionStorage.setItem('cl_auth','1');
+    sessionStorage.setItem('user_role', selectedRole);
+    
+    const roleBadge = document.getElementById('roleBadge');
+    if(roleBadge){
+      roleBadge.style.display = 'inline-flex';
+      roleBadge.className = `role-badge ${selectedRole}`;
+      roleBadge.textContent = selectedRole === 'attendant' ? '🧑‍🍳 Attendant' : '👨‍💼 Management';
+    }
+    
+    updateUIForRole(selectedRole);
+    
+    requestBrowserNotifications();
+    start();
+  } else {
+    const err = document.getElementById('loginErr');
+    err.textContent = 'Incorrect password.';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+    setTimeout(() => err.textContent = '', 3000);
+  }
+};
+
 function logout(){
   sessionStorage.removeItem('cl_auth');
+  sessionStorage.removeItem('user_role');
+  currentUserRole = null;
   clearInterval(refreshTimer);
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
@@ -428,6 +531,22 @@ function logout(){
 }
 
 if(sessionStorage.getItem('cl_auth') === '1'){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  
+  // Restore role from session
+  const savedRole = sessionStorage.getItem('user_role');
+  if(savedRole){
+    currentUserRole = savedRole;
+    const roleBadge = document.getElementById('roleBadge');
+    if(roleBadge){
+      roleBadge.style.display = 'inline-flex';
+      roleBadge.className = `role-badge ${savedRole}`;
+      roleBadge.textContent = savedRole === 'attendant' ? '🧑‍🍳 Attendant' : '👨‍💼 Management';
+    }
+    updateUIForRole(savedRole);
+  }
+}
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
 }
@@ -645,7 +764,7 @@ th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.08em;
 </head>
 <body>
   <div class="wrap">
-    <h1>Climax Lounge</h1>
+    <h1>FlexiOrder Lounge</h1>
     <div class="sub">Makindye · Kampala</div>
     <div class="meta">
       <div><strong>Receipt:</strong> #${escapeHtml(order.id)}</div>
